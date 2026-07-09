@@ -4,11 +4,13 @@ namespace App\Livewire\Attendance;
 
 use App\Models\Attendance;
 use App\Services\AttendanceService;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class ClockInOut extends Component
 {
     public string $lokasi = '';
+    #[Locked]
     public ?Attendance $todayAttendance = null;
     public ?string $errorMessage = null;
 
@@ -25,8 +27,14 @@ class ClockInOut extends Component
         $this->validate();
         $this->errorMessage = null;
 
+        $employee = auth()->user()->employee;
+        if (! $employee) {
+            $this->errorMessage = 'Data pegawai tidak ditemukan.';
+            return;
+        }
+
         try {
-            $this->todayAttendance = $service->clockIn(auth()->user()->employee, $this->lokasi);
+            $this->todayAttendance = $service->clockIn($employee, $this->lokasi);
             $this->lokasi = '';
         } catch (\RuntimeException $e) {
             $this->errorMessage = $e->getMessage();

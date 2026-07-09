@@ -80,4 +80,23 @@ class ClockInOutTest extends TestCase
             ->call('clockIn')
             ->assertHasErrors(['lokasi' => 'required']);
     }
+
+    public function test_clock_out_updates_record(): void
+    {
+        Carbon::setTestNow(Carbon::today()->setTime(7, 30));
+        $this->actingAs($this->user);
+        (new AttendanceService())->clockIn($this->employee, 'Kantor');
+
+        Carbon::setTestNow(Carbon::today()->setTime(16, 0));
+
+        Livewire::test(ClockInOut::class)
+            ->set('lokasi', 'Kantor')
+            ->call('clockOut')
+            ->assertHasNoErrors()
+            ->assertSee('Absensi hari ini selesai');
+
+        $this->assertNotNull(
+            $this->employee->attendances()->whereDate('tanggal', today())->first()?->jam_pulang
+        );
+    }
 }
