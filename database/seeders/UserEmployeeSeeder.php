@@ -10,12 +10,15 @@ class UserEmployeeSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name'     => 'Administrator',
-            'email'    => 'admin@puspa.test',
-            'password' => 'password',
-            'role'     => 'admin',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@puspa.test'],
+            [
+                'name'              => 'Administrator',
+                'password'          => 'password',
+                'role'              => 'admin',
+                'email_verified_at' => now(),
+            ]
+        );
 
         $pegawai = [
             ['nip' => '19850101001', 'nama_lengkap' => 'Siti Rahayu',     'email' => 'siti@puspa.test',  'tanggal_masuk' => '2020-03-01'],
@@ -26,20 +29,25 @@ class UserEmployeeSeeder extends Seeder
         ];
 
         foreach ($pegawai as $data) {
-            $user = User::create([
-                'name'     => $data['nama_lengkap'],
-                'email'    => $data['email'],
-                'password' => 'password',
-                'role'     => 'pegawai',
-            ]);
+            $user = User::firstOrCreate(
+                ['email' => $data['email']],
+                [
+                    'name'              => $data['nama_lengkap'],
+                    'password'          => 'password',
+                    'role'              => 'pegawai',
+                    'email_verified_at' => now(),
+                ]
+            );
 
-            Employee::create([
-                'user_id'       => $user->id,
-                'nip'           => $data['nip'],
-                'nama_lengkap'  => $data['nama_lengkap'],
-                'status_aktif'  => true,
-                'tanggal_masuk' => $data['tanggal_masuk'],
-            ]);
+            Employee::firstOrCreate(
+                ['nip' => $data['nip']],
+                [
+                    'user_id'       => $user->id,
+                    'nama_lengkap'  => $data['nama_lengkap'],
+                    'status_aktif'  => true,
+                    'tanggal_masuk' => $data['tanggal_masuk'],
+                ]
+            );
         }
     }
 }
