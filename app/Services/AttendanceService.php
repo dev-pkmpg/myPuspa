@@ -31,6 +31,8 @@ class AttendanceService
 
     public function clockOut(Attendance $attendance, string $lokasi): Attendance
     {
+        $attendance = $attendance->fresh();
+
         if (! $attendance->jam_masuk || $attendance->jam_pulang) {
             throw new \RuntimeException('Tidak dapat melakukan absen pulang saat ini.');
         }

@@ -100,4 +100,24 @@ class AttendanceServiceTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->service->clockOut($attendance->fresh(), 'Kantor');
     }
+
+    public function test_today_attendance_returns_record_after_clock_in(): void
+    {
+        Carbon::setTestNow(Carbon::today()->setTime(7, 30));
+        $this->service->clockIn($this->employee, 'Kantor');
+
+        $result = $this->service->todayAttendance($this->employee);
+
+        $this->assertNotNull($result);
+        $this->assertEquals($this->employee->id, $result->employee_id);
+        $this->assertNull($this->service->todayAttendance(
+            \App\Models\Employee::create([
+                'user_id'       => \App\Models\User::factory()->create(['role' => 'pegawai'])->id,
+                'nip'           => '999',
+                'nama_lengkap'  => 'Other',
+                'status_aktif'  => true,
+                'tanggal_masuk' => today(),
+            ])
+        ));
+    }
 }
