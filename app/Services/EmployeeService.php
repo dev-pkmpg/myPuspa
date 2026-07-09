@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class EmployeeService
 {
@@ -15,7 +14,7 @@ class EmployeeService
             $user = User::create([
                 'name'     => $data['nama_lengkap'],
                 'email'    => $data['email'],
-                'password' => Hash::make($data['password']),
+                'password' => $data['password'],
                 'role'     => 'pegawai',
             ]);
 
