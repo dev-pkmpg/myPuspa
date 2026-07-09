@@ -38,12 +38,14 @@ class ShiftManager extends Component
 
     public function toggleStatus(int $id): void
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
         $shift = AttendanceSetting::findOrFail($id);
         $shift->update(['status_aktif' => ! $shift->status_aktif]);
     }
 
     public function delete(int $id): void
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
         AttendanceSetting::findOrFail($id)->delete();
     }
 
