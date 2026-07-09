@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root -e \"CREATE DATABASE IF NOT EXISTS laravel CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\" 2>&1; Write-Output \"Exit code: $LASTEXITCODE\")",
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root -h 127.0.0.1 -P 3306 -e \"CREATE DATABASE IF NOT EXISTS laravel CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\" 2>&1; Write-Output \"Exit code: $LASTEXITCODE\")",
+      "PowerShell(Get-Service *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Start-Sleep -Seconds 3; & \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root -h 127.0.0.1 -P 3306 -e \"CREATE DATABASE IF NOT EXISTS laravel CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\" 2>&1; Write-Output \"Exit code: $LASTEXITCODE\")",
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root -h 127.0.0.1 -P 3306 -e \"SHOW DATABASES LIKE 'laravel';\" 2>&1)"
+    ]
+  }
+}
