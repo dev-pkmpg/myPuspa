@@ -1,5 +1,6 @@
 <x-layouts.app title="Dashboard">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl">
+        @auth
         @if(auth()->user()->role === 'pegawai')
             <livewire:attendance.clock-in-out />
         @else
@@ -8,5 +9,6 @@
                 <p class="text-sm text-gray-500">Gunakan menu sidebar untuk mengelola absensi dan pengaturan sistem.</p>
             </div>
         @endif
+        @endauth
     </div>
 </x-layouts.app>

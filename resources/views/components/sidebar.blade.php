@@ -26,6 +26,7 @@
                 </a>
                 @endif
             @endauth
+            @auth
             <a href="{{ route('attendance.history') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('attendance.history') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-50' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,6 +34,7 @@
                 </svg>
                 Riwayat Absensi
             </a>
+            @endauth
         </div>
 
         @auth
@@ -72,6 +74,7 @@
         </div>
     </nav>
 
+    @auth
     <div class="p-4 border-t border-gray-200">
         <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold text-sm">
@@ -91,4 +94,5 @@
             </form>
         </div>
     </div>
+    @endauth
 </aside>
