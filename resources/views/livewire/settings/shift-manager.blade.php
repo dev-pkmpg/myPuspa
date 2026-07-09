@@ -75,7 +75,16 @@
                         </button>
                     </td>
                     <td class="px-4 py-3 text-right">
-                        <button wire:click="delete({{ $shift->id }})" wire:confirm="Hapus shift ini?"
+                        <button @click="Swal.fire({
+                                    title: 'Hapus Shift?',
+                                    text: 'Shift &quot;{{ $shift->nama_shift }}&quot; akan dihapus permanen.',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#ef4444',
+                                    cancelButtonColor: '#6b7280',
+                                    confirmButtonText: 'Ya, Hapus',
+                                    cancelButtonText: 'Batal',
+                                }).then((result) => { if (result.isConfirmed) $wire.delete({{ $shift->id }}) })"
                                 class="text-red-400 hover:text-red-600 text-xs">Hapus</button>
                     </td>
                 </tr>
