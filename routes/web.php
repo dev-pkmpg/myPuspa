@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
         Route::get('/absensi', fn () => view('pages.attendance.admin'))->name('attendance.index');
         Route::get('/pengaturan-jam', fn () => view('pages.settings.shifts'))->name('settings.shifts');
+        Route::get('/hari-libur', fn () => view('pages.settings.holidays'))->name('settings.holidays');
 
         Route::prefix('kepegawaian')->name('kepegawaian.')->group(function () {
             Route::get('/', fn () => view('pages.kepegawaian.employees'))->name('employees');
