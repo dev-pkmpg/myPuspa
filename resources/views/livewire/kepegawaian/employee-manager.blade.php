@@ -97,6 +97,17 @@
                 </select>
                 @error('klaster_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">Lokasi</label>
+                <select wire:model="lokasi_id"
+                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="">— Pilih Lokasi —</option>
+                    @foreach($lokasis as $lokasi)
+                        <option value="{{ $lokasi->id }}">{{ $lokasi->nama_lokasi }}</option>
+                    @endforeach
+                </select>
+                @error('lokasi_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
             <div class="flex items-center">
                 <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
                     <input wire:model="status_aktif" type="checkbox" class="rounded">
@@ -201,6 +212,7 @@
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Jabatan</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Klaster</th>
+                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Lokasi</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Aktif</th>
                     <th class="px-4 py-3"></th>
                 </tr>
@@ -214,6 +226,7 @@
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->jabatan?->nama_jabatan ?? '—' }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->statusPegawai?->nama_status ?? '—' }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->klaster?->nama_klaster ?? '—' }}</td>
+                    <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->lokasi?->nama_lokasi ?? '—' }}</td>
                     <td class="px-4 py-3">
                         <button wire:click="toggleStatusAktif({{ $employee->id }})"
                                 class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium {{ $employee->status_aktif ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
@@ -243,7 +256,7 @@
 
                 @if($historyEmployee?->id === $employee->id)
                 <tr>
-                    <td colspan="8" class="px-4 py-4 bg-indigo-50">
+                    <td colspan="9" class="px-4 py-4 bg-indigo-50">
                         <p class="text-xs font-semibold text-indigo-700 uppercase tracking-wider mb-3">
                             Riwayat Assignment — {{ $employee->nama_lengkap }}
                         </p>
@@ -253,6 +266,7 @@
                                     <th class="text-left pb-2 font-semibold">Jabatan</th>
                                     <th class="text-left pb-2 font-semibold">Status Pegawai</th>
                                     <th class="text-left pb-2 font-semibold">Klaster</th>
+                                    <th class="text-left pb-2 font-semibold">Lokasi</th>
                                     <th class="text-left pb-2 font-semibold">Mulai</th>
                                     <th class="text-left pb-2 font-semibold">Selesai</th>
                                 </tr>
@@ -263,6 +277,7 @@
                                     <td class="py-1.5">{{ $assignment->jabatan?->nama_jabatan ?? '—' }}</td>
                                     <td class="py-1.5">{{ $assignment->statusPegawai?->nama_status ?? '—' }}</td>
                                     <td class="py-1.5">{{ $assignment->klaster?->nama_klaster ?? '—' }}</td>
+                                    <td class="py-1.5">{{ $assignment->lokasi?->nama_lokasi ?? '—' }}</td>
                                     <td class="py-1.5">{{ $assignment->tanggal_mulai->format('d/m/Y') }}</td>
                                     <td class="py-1.5">
                                         @if(is_null($assignment->tanggal_selesai))
@@ -273,7 +288,7 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <tr><td colspan="5" class="py-2 text-gray-400">Belum ada riwayat assignment.</td></tr>
+                                <tr><td colspan="6" class="py-2 text-gray-400">Belum ada riwayat assignment.</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -283,7 +298,7 @@
 
                 @empty
                 <tr>
-                    <td colspan="8" class="px-4 py-8 text-center text-gray-400 text-sm">Belum ada pegawai.</td>
+                    <td colspan="9" class="px-4 py-8 text-center text-gray-400 text-sm">Belum ada pegawai.</td>
                 </tr>
                 @endforelse
             </tbody>

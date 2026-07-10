@@ -5,6 +5,7 @@ namespace App\Livewire\Kepegawaian;
 use App\Models\Employee;
 use App\Models\Jabatan;
 use App\Models\Klaster;
+use App\Models\Lokasi;
 use App\Models\StatusPegawai;
 use App\Services\EmployeeService;
 use Livewire\Component;
@@ -29,6 +30,7 @@ class EmployeeManager extends Component
     public ?int $jabatan_id = null;
     public ?int $status_pegawai_id = null;
     public ?int $klaster_id = null;
+    public ?int $lokasi_id = null;
     public bool $status_aktif = true;
     public bool $showForm = false;
     public ?int $editingId = null;
@@ -52,6 +54,7 @@ class EmployeeManager extends Component
             'jabatan_id'                  => 'nullable|exists:jabatans,id',
             'status_pegawai_id'           => 'nullable|exists:status_pegawais,id',
             'klaster_id'                  => 'nullable|exists:klasters,id',
+            'lokasi_id'                   => 'nullable|exists:lokasis,id',
             'nik'                         => 'nullable|string|max:16|unique:employees,nik' . ($this->editingId ? ',' . $this->editingId : ''),
             'npwp'                        => 'nullable|string|max:20',
             'nomor_bpjs_ketenagakerjaan'  => 'nullable|string|max:20',
@@ -80,6 +83,7 @@ class EmployeeManager extends Component
             'jabatan_id'                 => $this->jabatan_id ?: null,
             'status_pegawai_id'          => $this->status_pegawai_id ?: null,
             'klaster_id'                 => $this->klaster_id ?: null,
+            'lokasi_id'                  => $this->lokasi_id ?: null,
             'nik'                        => $this->nik ?: null,
             'npwp'                       => $this->npwp ?: null,
             'nomor_bpjs_ketenagakerjaan' => $this->nomor_bpjs_ketenagakerjaan ?: null,
@@ -117,6 +121,7 @@ class EmployeeManager extends Component
         $this->jabatan_id                 = $employee->currentAssignment?->jabatan_id;
         $this->status_pegawai_id          = $employee->currentAssignment?->status_pegawai_id;
         $this->klaster_id                 = $employee->currentAssignment?->klaster_id;
+        $this->lokasi_id                  = $employee->currentAssignment?->lokasi_id;
         $this->nik                        = $employee->nik ?? '';
         $this->npwp                       = $employee->npwp ?? '';
         $this->nomor_bpjs_ketenagakerjaan = $employee->nomor_bpjs_ketenagakerjaan ?? '';
@@ -148,7 +153,7 @@ class EmployeeManager extends Component
     {
         $this->reset([
             'nama_lengkap', 'email', 'password', 'nip', 'nrk', 'tanggal_masuk',
-            'jabatan_id', 'status_pegawai_id', 'klaster_id',
+            'jabatan_id', 'status_pegawai_id', 'klaster_id', 'lokasi_id',
             'nik', 'npwp', 'nomor_bpjs_ketenagakerjaan', 'nomor_bpjs_kesehatan',
             'id_sip', 'id_str', 'nomor_hp', 'email_pribadi', 'status_pernikahan',
             'showForm', 'editingId', 'editingUserId',
@@ -164,14 +169,15 @@ class EmployeeManager extends Component
     public function render()
     {
         $historyEmployee = $this->historyEmployeeId
-            ? Employee::with(['assignments.jabatan', 'assignments.statusPegawai', 'assignments.klaster'])->find($this->historyEmployeeId)
+            ? Employee::with(['assignments.jabatan', 'assignments.statusPegawai', 'assignments.klaster', 'assignments.lokasi'])->find($this->historyEmployeeId)
             : null;
 
         return view('livewire.kepegawaian.employee-manager', [
-            'employees'      => Employee::with(['user', 'currentAssignment.jabatan', 'currentAssignment.statusPegawai', 'currentAssignment.klaster'])->orderBy('nama_lengkap')->get(),
+            'employees'      => Employee::with(['user', 'currentAssignment.jabatan', 'currentAssignment.statusPegawai', 'currentAssignment.klaster', 'currentAssignment.lokasi'])->orderBy('nama_lengkap')->get(),
             'jabatans'       => Jabatan::where('aktif', true)->orderBy('nama_jabatan')->get(),
             'statusPegawais' => StatusPegawai::where('aktif', true)->orderBy('nama_status')->get(),
             'klasters'       => Klaster::aktif()->orderBy('nama_klaster')->get(),
+            'lokasis'        => Lokasi::aktif()->orderBy('nama_lokasi')->get(),
             'historyEmployee' => $historyEmployee,
         ]);
     }

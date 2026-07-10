@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/jabatan', fn () => view('pages.kepegawaian.jabatan'))->name('jabatan');
             Route::get('/status-pegawai', fn () => view('pages.kepegawaian.status-pegawai'))->name('status-pegawai');
             Route::get('/klaster', fn () => view('pages.kepegawaian.klaster'))->name('klaster');
+            Route::get('/lokasi', fn () => view('pages.kepegawaian.lokasi'))->name('lokasi');
         });
     });
 });

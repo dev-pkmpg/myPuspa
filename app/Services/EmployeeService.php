@@ -41,6 +41,7 @@ class EmployeeService
                 'jabatan_id'        => $data['jabatan_id'] ?? null,
                 'status_pegawai_id' => $data['status_pegawai_id'] ?? null,
                 'klaster_id'        => $data['klaster_id'] ?? null,
+                'lokasi_id'         => $data['lokasi_id'] ?? null,
                 'tanggal_mulai'     => $data['tanggal_masuk'],
             ]);
 
@@ -80,9 +81,11 @@ class EmployeeService
             $newJabatan  = $data['jabatan_id'] ?? null;
             $newStatus   = $data['status_pegawai_id'] ?? null;
             $newKlaster  = $data['klaster_id'] ?? null;
+            $newLokasi   = $data['lokasi_id'] ?? null;
             $assignmentChanged = (int) ($current?->jabatan_id) !== (int) ($newJabatan ?: 0)
                 || (int) ($current?->status_pegawai_id) !== (int) ($newStatus ?: 0)
-                || (int) ($current?->klaster_id) !== (int) ($newKlaster ?: 0);
+                || (int) ($current?->klaster_id) !== (int) ($newKlaster ?: 0)
+                || (int) ($current?->lokasi_id) !== (int) ($newLokasi ?: 0);
 
             if ($assignmentChanged) {
                 $current?->update(['tanggal_selesai' => today()]);
@@ -91,6 +94,7 @@ class EmployeeService
                     'jabatan_id'        => $newJabatan ?: null,
                     'status_pegawai_id' => $newStatus ?: null,
                     'klaster_id'        => $newKlaster ?: null,
+                    'lokasi_id'         => $newLokasi ?: null,
                     'tanggal_mulai'     => today(),
                 ]);
             }
