@@ -209,7 +209,7 @@
                 @forelse($employees as $employee)
                 <tr class="hover:bg-gray-50">
                     <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $employee->nip }}</td>
-                    <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $employee->nrk ?? '—' }}</td>
+                    <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $employee->user->nrk ?? '—' }}</td>
                     <td class="px-4 py-3 font-medium text-gray-800">{{ $employee->nama_lengkap }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->jabatan?->nama_jabatan ?? '—' }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->statusPegawai?->nama_status ?? '—' }}</td>

@@ -38,7 +38,7 @@ class EmployeeManager extends Component
     public function rules(): array
     {
         $nipRule   = 'required|string|max:20|unique:employees,nip' . ($this->editingId ? ',' . $this->editingId : '');
-        $nrkRule   = 'nullable|string|max:20|unique:employees,nrk' . ($this->editingId ? ',' . $this->editingId : '');
+        $nrkRule   = 'nullable|string|max:20|unique:users,nrk' . ($this->editingUserId ? ',' . $this->editingUserId : '');
         $emailRule = 'required|email|unique:users,email' . ($this->editingUserId ? ',' . $this->editingUserId : '');
         $pwRule    = $this->editingId ? 'nullable|string|min:8' : 'required|string|min:8';
 
@@ -112,7 +112,7 @@ class EmployeeManager extends Component
         $this->email             = $employee->user->email;
         $this->password          = '';
         $this->nip               = $employee->nip;
-        $this->nrk               = $employee->nrk ?? '';
+        $this->nrk               = $employee->user->nrk ?? '';
         $this->tanggal_masuk     = $employee->tanggal_masuk->format('Y-m-d');
         $this->jabatan_id                 = $employee->currentAssignment?->jabatan_id;
         $this->status_pegawai_id          = $employee->currentAssignment?->status_pegawai_id;

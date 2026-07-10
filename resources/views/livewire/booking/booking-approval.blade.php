@@ -24,7 +24,7 @@
             <tbody class="divide-y divide-gray-100">
                 @forelse($bookings as $booking)
                 <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 font-medium text-gray-800">{{ $booking->user->name }}</td>
+                    <td class="px-4 py-3 font-medium text-gray-800">{{ $booking->user->employee?->nama_lengkap ?? $booking->user->nrk }}</td>
                     <td class="px-4 py-3 text-gray-600">{{ $booking->ruangan->nama }}</td>
                     <td class="px-4 py-3 text-gray-600">{{ $booking->tanggal->format('d/m/Y') }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">

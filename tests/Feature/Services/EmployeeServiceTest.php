@@ -40,7 +40,7 @@ class EmployeeServiceTest extends TestCase
     public function test_update_changes_employee_and_user_data(): void
     {
         $user = User::create([
-            'name' => 'Budi Lama', 'email' => 'budi@example.com',
+            'email' => 'budi@example.com',
             'password' => 'password', 'role' => 'pegawai',
         ]);
         $employee = Employee::create([
@@ -64,7 +64,7 @@ class EmployeeServiceTest extends TestCase
     public function test_update_skips_password_when_empty(): void
     {
         $user = User::create([
-            'name' => 'Budi', 'email' => 'budi@example.com',
+            'email' => 'budi@example.com',
             'password' => bcrypt('password_lama'), 'role' => 'pegawai',
         ]);
         $employee = Employee::create([
@@ -91,7 +91,6 @@ class EmployeeServiceTest extends TestCase
         // Seed an existing employee to create a duplicate NIP conflict.
         // Using direct model creation to avoid needing an EmployeeFactory.
         $existingUser = User::create([
-            'name'     => 'Existing User',
             'email'    => 'existing@example.com',
             'password' => 'secret',
             'role'     => 'pegawai',

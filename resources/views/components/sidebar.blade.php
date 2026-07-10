@@ -161,11 +161,12 @@
     @auth
     <div class="p-4 border-t border-gray-200">
         <div class="flex items-center gap-3">
+            @php $displayName = auth()->user()->employee?->nama_lengkap ?? auth()->user()->nrk ?? 'U'; @endphp
             <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold text-sm">
-                {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                {{ strtoupper(substr($displayName, 0, 1)) }}
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">{{ auth()->user()->name }}</p>
+                <p class="text-sm font-medium text-gray-900 truncate">{{ $displayName }}</p>
                 <p class="text-xs text-gray-500 capitalize">{{ auth()->user()->role }}</p>
             </div>
             <form method="POST" action="{{ route('logout') }}">

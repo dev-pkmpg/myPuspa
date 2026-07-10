@@ -13,7 +13,7 @@ class EmployeeService
     {
         return DB::transaction(function () use ($data) {
             $user = User::create([
-                'name'     => $data['nama_lengkap'],
+                'nrk'      => $data['nrk'] ?? null,
                 'email'    => $data['email'],
                 'password' => $data['password'],
                 'role'     => 'pegawai',
@@ -22,10 +22,18 @@ class EmployeeService
             $employee = Employee::create([
                 'user_id'      => $user->id,
                 'nip'          => $data['nip'],
-                'nrk'          => $data['nrk'] ?? null,
                 'nama_lengkap' => $data['nama_lengkap'],
                 'status_aktif' => $data['status_aktif'] ?? true,
                 'tanggal_masuk' => $data['tanggal_masuk'],
+                'nik'                        => $data['nik'] ?? null,
+                'npwp'                       => $data['npwp'] ?? null,
+                'nomor_bpjs_ketenagakerjaan' => $data['nomor_bpjs_ketenagakerjaan'] ?? null,
+                'nomor_bpjs_kesehatan'       => $data['nomor_bpjs_kesehatan'] ?? null,
+                'id_sip'                     => $data['id_sip'] ?? null,
+                'id_str'                     => $data['id_str'] ?? null,
+                'nomor_hp'                   => $data['nomor_hp'] ?? null,
+                'email_pribadi'              => $data['email_pribadi'] ?? null,
+                'status_pernikahan'          => $data['status_pernikahan'] ?? null,
             ]);
 
             EmployeeAssignment::create([
@@ -43,7 +51,10 @@ class EmployeeService
     public function update(Employee $employee, array $data): Employee
     {
         return DB::transaction(function () use ($employee, $data) {
-            $userUpdate = ['name' => $data['nama_lengkap'], 'email' => $data['email']];
+            $userUpdate = [
+                'nrk'   => $data['nrk'] ?? null,
+                'email' => $data['email'],
+            ];
             if (! empty($data['password'])) {
                 $userUpdate['password'] = $data['password'];
             }
@@ -51,10 +62,18 @@ class EmployeeService
 
             $employee->update([
                 'nip'          => $data['nip'],
-                'nrk'          => $data['nrk'] ?? null,
                 'nama_lengkap' => $data['nama_lengkap'],
                 'status_aktif' => $data['status_aktif'] ?? true,
                 'tanggal_masuk' => $data['tanggal_masuk'],
+                'nik'                        => $data['nik'] ?? null,
+                'npwp'                       => $data['npwp'] ?? null,
+                'nomor_bpjs_ketenagakerjaan' => $data['nomor_bpjs_ketenagakerjaan'] ?? null,
+                'nomor_bpjs_kesehatan'       => $data['nomor_bpjs_kesehatan'] ?? null,
+                'id_sip'                     => $data['id_sip'] ?? null,
+                'id_str'                     => $data['id_str'] ?? null,
+                'nomor_hp'                   => $data['nomor_hp'] ?? null,
+                'email_pribadi'              => $data['email_pribadi'] ?? null,
+                'status_pernikahan'          => $data['status_pernikahan'] ?? null,
             ]);
 
             $current = $employee->currentAssignment;
@@ -71,7 +90,7 @@ class EmployeeService
                     'employee_id'       => $employee->id,
                     'jabatan_id'        => $newJabatan ?: null,
                     'status_pegawai_id' => $newStatus ?: null,
-                    'klaster'           => $newKlaster ?: null,
+                    'klaster_id'        => $newKlaster ?: null,
                     'tanggal_mulai'     => today(),
                 ]);
             }

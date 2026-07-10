@@ -13,7 +13,7 @@ class UserEmployeeSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'admin@puspa.test'],
             [
-                'name'              => 'Administrator',
+                'nrk'               => 'ADMIN',
                 'password'          => 'password',
                 'role'              => 'admin',
                 'email_verified_at' => now(),
@@ -21,18 +21,18 @@ class UserEmployeeSeeder extends Seeder
         );
 
         $pegawai = [
-            ['nip' => '19850101001', 'nama_lengkap' => 'Siti Rahayu',     'email' => 'siti@puspa.test',  'tanggal_masuk' => '2020-03-01'],
-            ['nip' => '19880215002', 'nama_lengkap' => 'Ahmad Fauzi',     'email' => 'ahmad@puspa.test', 'tanggal_masuk' => '2019-07-15'],
-            ['nip' => '19900522003', 'nama_lengkap' => 'Dewi Lestari',    'email' => 'dewi@puspa.test',  'tanggal_masuk' => '2021-01-10'],
-            ['nip' => '19921130004', 'nama_lengkap' => 'Rizki Pratama',   'email' => 'rizki@puspa.test', 'tanggal_masuk' => '2022-06-01'],
-            ['nip' => '19950807005', 'nama_lengkap' => 'Putri Handayani', 'email' => 'putri@puspa.test', 'tanggal_masuk' => '2023-02-20'],
+            ['nrk' => 'NRK001', 'nip' => '19850101001', 'nama_lengkap' => 'Siti Rahayu',     'email' => 'siti@puspa.test',  'tanggal_masuk' => '2020-03-01'],
+            ['nrk' => 'NRK002', 'nip' => '19880215002', 'nama_lengkap' => 'Ahmad Fauzi',     'email' => 'ahmad@puspa.test', 'tanggal_masuk' => '2019-07-15'],
+            ['nrk' => 'NRK003', 'nip' => '19900522003', 'nama_lengkap' => 'Dewi Lestari',    'email' => 'dewi@puspa.test',  'tanggal_masuk' => '2021-01-10'],
+            ['nrk' => 'NRK004', 'nip' => '19921130004', 'nama_lengkap' => 'Rizki Pratama',   'email' => 'rizki@puspa.test', 'tanggal_masuk' => '2022-06-01'],
+            ['nrk' => 'NRK005', 'nip' => '19950807005', 'nama_lengkap' => 'Putri Handayani', 'email' => 'putri@puspa.test', 'tanggal_masuk' => '2023-02-20'],
         ];
 
         foreach ($pegawai as $data) {
             $user = User::firstOrCreate(
                 ['email' => $data['email']],
                 [
-                    'name'              => $data['nama_lengkap'],
+                    'nrk'               => $data['nrk'],
                     'password'          => 'password',
                     'role'              => 'pegawai',
                     'email_verified_at' => now(),
