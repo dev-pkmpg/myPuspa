@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Employee extends Model
 {
     protected $fillable = [
-        'user_id', 'nip', 'nrk', 'nama_lengkap', 'status_aktif', 'tanggal_masuk',
+        'user_id', 'nip', 'nrk', 'nik', 'npwp',
+        'nomor_bpjs_ketenagakerjaan', 'nomor_bpjs_kesehatan',
+        'id_sip', 'id_str', 'nomor_hp', 'email_pribadi', 'status_pernikahan',
+        'nama_lengkap', 'status_aktif', 'tanggal_masuk',
     ];
 
     protected $casts = [

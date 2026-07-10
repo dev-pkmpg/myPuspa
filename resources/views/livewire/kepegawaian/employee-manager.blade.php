@@ -103,6 +103,71 @@
                     Pegawai Aktif
                 </label>
             </div>
+
+            <div class="col-span-2 pt-2">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Data Pribadi & Administrasi</p>
+            </div>
+
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">NIK</label>
+                <input wire:model="nik" type="text" maxlength="16" placeholder="16 digit"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('nik') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">NPWP</label>
+                <input wire:model="npwp" type="text" maxlength="20" placeholder="XX.XXX.XXX.X-XXX.XXX"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('npwp') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">No. BPJS Ketenagakerjaan</label>
+                <input wire:model="nomor_bpjs_ketenagakerjaan" type="text" maxlength="20"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('nomor_bpjs_ketenagakerjaan') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">No. BPJS Kesehatan</label>
+                <input wire:model="nomor_bpjs_kesehatan" type="text" maxlength="20"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('nomor_bpjs_kesehatan') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">ID SIP</label>
+                <input wire:model="id_sip" type="text"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('id_sip') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">ID STR</label>
+                <input wire:model="id_str" type="text"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('id_str') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">Nomor HP</label>
+                <input wire:model="nomor_hp" type="text" maxlength="20" placeholder="08xxxxxxxxxx"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('nomor_hp') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">Email Pribadi</label>
+                <input wire:model="email_pribadi" type="email"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('email_pribadi') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div class="col-span-2">
+                <label class="block text-xs font-medium text-gray-600 mb-1">Status Pernikahan</label>
+                <select wire:model="status_pernikahan"
+                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="">— Pilih Status —</option>
+                    <option value="belum_menikah">Belum Menikah</option>
+                    <option value="menikah">Menikah</option>
+                    <option value="cerai_hidup">Cerai Hidup</option>
+                    <option value="cerai_mati">Cerai Mati</option>
+                </select>
+                @error('status_pernikahan') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
         </div>
         <div class="flex gap-3 mt-4">
             <button @click="Swal.fire({

@@ -16,6 +16,15 @@ class EmployeeManager extends Component
     public string $password = '';
     public string $nip = '';
     public string $nrk = '';
+    public string $nik = '';
+    public string $npwp = '';
+    public string $nomor_bpjs_ketenagakerjaan = '';
+    public string $nomor_bpjs_kesehatan = '';
+    public string $id_sip = '';
+    public string $id_str = '';
+    public string $nomor_hp = '';
+    public string $email_pribadi = '';
+    public ?string $status_pernikahan = null;
     public string $tanggal_masuk = '';
     public ?int $jabatan_id = null;
     public ?int $status_pegawai_id = null;
@@ -40,10 +49,19 @@ class EmployeeManager extends Component
             'nip'               => $nipRule,
             'nrk'               => $nrkRule,
             'tanggal_masuk'     => 'required|date',
-            'jabatan_id'        => 'nullable|exists:jabatans,id',
-            'status_pegawai_id' => 'nullable|exists:status_pegawais,id',
-            'klaster_id'        => 'nullable|exists:klasters,id',
-            'status_aktif'      => 'boolean',
+            'jabatan_id'                  => 'nullable|exists:jabatans,id',
+            'status_pegawai_id'           => 'nullable|exists:status_pegawais,id',
+            'klaster_id'                  => 'nullable|exists:klasters,id',
+            'nik'                         => 'nullable|string|max:16|unique:employees,nik' . ($this->editingId ? ',' . $this->editingId : ''),
+            'npwp'                        => 'nullable|string|max:20',
+            'nomor_bpjs_ketenagakerjaan'  => 'nullable|string|max:20',
+            'nomor_bpjs_kesehatan'        => 'nullable|string|max:20',
+            'id_sip'                      => 'nullable|string|max:100',
+            'id_str'                      => 'nullable|string|max:100',
+            'nomor_hp'                    => 'nullable|string|max:20',
+            'email_pribadi'               => 'nullable|email|max:255',
+            'status_pernikahan'           => 'nullable|in:belum_menikah,menikah,cerai_hidup,cerai_mati',
+            'status_aktif'                => 'boolean',
         ];
     }
 
@@ -59,10 +77,19 @@ class EmployeeManager extends Component
             'nip'               => $this->nip,
             'nrk'               => $this->nrk ?: null,
             'tanggal_masuk'     => $this->tanggal_masuk,
-            'jabatan_id'        => $this->jabatan_id ?: null,
-            'status_pegawai_id' => $this->status_pegawai_id ?: null,
-            'klaster_id'        => $this->klaster_id ?: null,
-            'status_aktif'      => $this->status_aktif,
+            'jabatan_id'                 => $this->jabatan_id ?: null,
+            'status_pegawai_id'          => $this->status_pegawai_id ?: null,
+            'klaster_id'                 => $this->klaster_id ?: null,
+            'nik'                        => $this->nik ?: null,
+            'npwp'                       => $this->npwp ?: null,
+            'nomor_bpjs_ketenagakerjaan' => $this->nomor_bpjs_ketenagakerjaan ?: null,
+            'nomor_bpjs_kesehatan'       => $this->nomor_bpjs_kesehatan ?: null,
+            'id_sip'                     => $this->id_sip ?: null,
+            'id_str'                     => $this->id_str ?: null,
+            'nomor_hp'                   => $this->nomor_hp ?: null,
+            'email_pribadi'              => $this->email_pribadi ?: null,
+            'status_pernikahan'          => $this->status_pernikahan ?: null,
+            'status_aktif'               => $this->status_aktif,
         ];
 
         if ($this->editingId) {
@@ -87,11 +114,20 @@ class EmployeeManager extends Component
         $this->nip               = $employee->nip;
         $this->nrk               = $employee->nrk ?? '';
         $this->tanggal_masuk     = $employee->tanggal_masuk->format('Y-m-d');
-        $this->jabatan_id        = $employee->currentAssignment?->jabatan_id;
-        $this->status_pegawai_id = $employee->currentAssignment?->status_pegawai_id;
-        $this->klaster_id        = $employee->currentAssignment?->klaster_id;
-        $this->status_aktif      = $employee->status_aktif;
-        $this->showForm          = true;
+        $this->jabatan_id                 = $employee->currentAssignment?->jabatan_id;
+        $this->status_pegawai_id          = $employee->currentAssignment?->status_pegawai_id;
+        $this->klaster_id                 = $employee->currentAssignment?->klaster_id;
+        $this->nik                        = $employee->nik ?? '';
+        $this->npwp                       = $employee->npwp ?? '';
+        $this->nomor_bpjs_ketenagakerjaan = $employee->nomor_bpjs_ketenagakerjaan ?? '';
+        $this->nomor_bpjs_kesehatan       = $employee->nomor_bpjs_kesehatan ?? '';
+        $this->id_sip                     = $employee->id_sip ?? '';
+        $this->id_str                     = $employee->id_str ?? '';
+        $this->nomor_hp                   = $employee->nomor_hp ?? '';
+        $this->email_pribadi              = $employee->email_pribadi ?? '';
+        $this->status_pernikahan          = $employee->status_pernikahan;
+        $this->status_aktif               = $employee->status_aktif;
+        $this->showForm                   = true;
     }
 
     public function toggleStatusAktif(int $id): void
@@ -113,6 +149,8 @@ class EmployeeManager extends Component
         $this->reset([
             'nama_lengkap', 'email', 'password', 'nip', 'nrk', 'tanggal_masuk',
             'jabatan_id', 'status_pegawai_id', 'klaster_id',
+            'nik', 'npwp', 'nomor_bpjs_ketenagakerjaan', 'nomor_bpjs_kesehatan',
+            'id_sip', 'id_str', 'nomor_hp', 'email_pribadi', 'status_pernikahan',
             'showForm', 'editingId', 'editingUserId',
         ]);
         $this->status_aktif = true;
