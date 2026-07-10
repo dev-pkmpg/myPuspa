@@ -9,7 +9,7 @@ class HariLibur extends Model
 {
     protected $fillable = ['tanggal', 'nama', 'keterangan'];
 
-    protected $casts = ['tanggal' => 'date'];
+    protected $casts = ['tanggal' => 'date:Y-m-d'];
 
     public function scopeOnDate(Builder $query, mixed $date): Builder
     {
