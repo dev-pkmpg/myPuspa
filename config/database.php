@@ -84,6 +84,19 @@ return [
             ]) : [],
         ],
 
+        'zkteco' => [
+            'driver'    => 'mysql',
+            'host'      => env('ZKTECO_DB_HOST', '127.0.0.1'),
+            'port'      => env('ZKTECO_DB_PORT', '3306'),
+            'database'  => env('ZKTECO_DB_DATABASE', ''),
+            'username'  => env('ZKTECO_DB_USERNAME', 'root'),
+            'password'  => env('ZKTECO_DB_PASSWORD', ''),
+            'charset'   => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
