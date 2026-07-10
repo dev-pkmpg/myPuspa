@@ -88,14 +88,14 @@
             </div>
             <div>
                 <label class="block text-xs font-medium text-gray-600 mb-1">Klaster</label>
-                <select wire:model="klaster"
+                <select wire:model="klaster_id"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <option value="">— Pilih Klaster —</option>
-                    @foreach($klasterOptions as $value => $label)
-                        <option value="{{ $value }}">{{ $label }}</option>
+                    @foreach($klasters as $klaster)
+                        <option value="{{ $klaster->id }}">{{ $klaster->nama_klaster }}</option>
                     @endforeach
                 </select>
-                @error('klaster') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                @error('klaster_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
             <div class="flex items-center">
                 <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
@@ -148,9 +148,7 @@
                     <td class="px-4 py-3 font-medium text-gray-800">{{ $employee->nama_lengkap }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->jabatan?->nama_jabatan ?? '—' }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->statusPegawai?->nama_status ?? '—' }}</td>
-                    <td class="px-4 py-3 text-gray-600 text-xs">
-                        {{ $employee->currentAssignment?->klaster ? ($klasterOptions[$employee->currentAssignment->klaster] ?? $employee->currentAssignment->klaster) : '—' }}
-                    </td>
+                    <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->klaster?->nama_klaster ?? '—' }}</td>
                     <td class="px-4 py-3">
                         <button wire:click="toggleStatusAktif({{ $employee->id }})"
                                 class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium {{ $employee->status_aktif ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
@@ -199,7 +197,7 @@
                                 <tr class="{{ is_null($assignment->tanggal_selesai) ? 'font-medium text-gray-800' : 'text-gray-500' }}">
                                     <td class="py-1.5">{{ $assignment->jabatan?->nama_jabatan ?? '—' }}</td>
                                     <td class="py-1.5">{{ $assignment->statusPegawai?->nama_status ?? '—' }}</td>
-                                    <td class="py-1.5">{{ $assignment->klaster ? ($klasterOptions[$assignment->klaster] ?? $assignment->klaster) : '—' }}</td>
+                                    <td class="py-1.5">{{ $assignment->klaster?->nama_klaster ?? '—' }}</td>
                                     <td class="py-1.5">{{ $assignment->tanggal_mulai->format('d/m/Y') }}</td>
                                     <td class="py-1.5">
                                         @if(is_null($assignment->tanggal_selesai))

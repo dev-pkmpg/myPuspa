@@ -38,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', fn () => view('pages.kepegawaian.employees'))->name('employees');
             Route::get('/jabatan', fn () => view('pages.kepegawaian.jabatan'))->name('jabatan');
             Route::get('/status-pegawai', fn () => view('pages.kepegawaian.status-pegawai'))->name('status-pegawai');
+            Route::get('/klaster', fn () => view('pages.kepegawaian.klaster'))->name('klaster');
         });
     });
 });

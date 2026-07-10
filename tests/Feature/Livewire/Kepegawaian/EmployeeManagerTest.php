@@ -45,7 +45,6 @@ class EmployeeManagerTest extends TestCase
             ->set('tanggal_masuk', '2024-01-01')
             ->set('jabatan_id', $this->jabatan->id)
             ->set('status_pegawai_id', $this->statusPegawai->id)
-            ->set('klaster', 'klaster_1')
             ->call('save')
             ->assertHasNoErrors();
 
@@ -127,8 +126,8 @@ class EmployeeManagerTest extends TestCase
             ->set('password', 'password123')
             ->set('nip', '001')
             ->set('tanggal_masuk', '2024-01-01')
-            ->set('klaster', 'klaster_99')
+            ->set('klaster_id', 9999)
             ->call('save')
-            ->assertHasErrors(['klaster']);
+            ->assertHasErrors(['klaster_id']);
     }
 }

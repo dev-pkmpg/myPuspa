@@ -4,20 +4,13 @@ namespace App\Livewire\Kepegawaian;
 
 use App\Models\Employee;
 use App\Models\Jabatan;
+use App\Models\Klaster;
 use App\Models\StatusPegawai;
 use App\Services\EmployeeService;
 use Livewire\Component;
 
 class EmployeeManager extends Component
 {
-    public const KLASTER_OPTIONS = [
-        'klaster_1'      => 'Klaster 1',
-        'klaster_2'      => 'Klaster 2',
-        'klaster_3'      => 'Klaster 3',
-        'klaster_4'      => 'Klaster 4',
-        'lintas_klaster' => 'Lintas Klaster',
-    ];
-
     public string $nama_lengkap = '';
     public string $email = '';
     public string $password = '';
@@ -26,7 +19,7 @@ class EmployeeManager extends Component
     public string $tanggal_masuk = '';
     public ?int $jabatan_id = null;
     public ?int $status_pegawai_id = null;
-    public ?string $klaster = null;
+    public ?int $klaster_id = null;
     public bool $status_aktif = true;
     public bool $showForm = false;
     public ?int $editingId = null;
@@ -49,7 +42,7 @@ class EmployeeManager extends Component
             'tanggal_masuk'     => 'required|date',
             'jabatan_id'        => 'nullable|exists:jabatans,id',
             'status_pegawai_id' => 'nullable|exists:status_pegawais,id',
-            'klaster'           => 'nullable|in:klaster_1,klaster_2,klaster_3,klaster_4,lintas_klaster',
+            'klaster_id'        => 'nullable|exists:klasters,id',
             'status_aktif'      => 'boolean',
         ];
     }
@@ -68,7 +61,7 @@ class EmployeeManager extends Component
             'tanggal_masuk'     => $this->tanggal_masuk,
             'jabatan_id'        => $this->jabatan_id ?: null,
             'status_pegawai_id' => $this->status_pegawai_id ?: null,
-            'klaster'           => $this->klaster ?: null,
+            'klaster_id'        => $this->klaster_id ?: null,
             'status_aktif'      => $this->status_aktif,
         ];
 
@@ -96,7 +89,7 @@ class EmployeeManager extends Component
         $this->tanggal_masuk     = $employee->tanggal_masuk->format('Y-m-d');
         $this->jabatan_id        = $employee->currentAssignment?->jabatan_id;
         $this->status_pegawai_id = $employee->currentAssignment?->status_pegawai_id;
-        $this->klaster           = $employee->currentAssignment?->klaster;
+        $this->klaster_id        = $employee->currentAssignment?->klaster_id;
         $this->status_aktif      = $employee->status_aktif;
         $this->showForm          = true;
     }
@@ -119,7 +112,7 @@ class EmployeeManager extends Component
     {
         $this->reset([
             'nama_lengkap', 'email', 'password', 'nip', 'nrk', 'tanggal_masuk',
-            'jabatan_id', 'status_pegawai_id', 'klaster',
+            'jabatan_id', 'status_pegawai_id', 'klaster_id',
             'showForm', 'editingId', 'editingUserId',
         ]);
         $this->status_aktif = true;
@@ -133,14 +126,14 @@ class EmployeeManager extends Component
     public function render()
     {
         $historyEmployee = $this->historyEmployeeId
-            ? Employee::with(['assignments.jabatan', 'assignments.statusPegawai'])->find($this->historyEmployeeId)
+            ? Employee::with(['assignments.jabatan', 'assignments.statusPegawai', 'assignments.klaster'])->find($this->historyEmployeeId)
             : null;
 
         return view('livewire.kepegawaian.employee-manager', [
-            'employees'       => Employee::with(['user', 'currentAssignment.jabatan', 'currentAssignment.statusPegawai'])->orderBy('nama_lengkap')->get(),
-            'jabatans'        => Jabatan::where('aktif', true)->orderBy('nama_jabatan')->get(),
-            'statusPegawais'  => StatusPegawai::where('aktif', true)->orderBy('nama_status')->get(),
-            'klasterOptions'  => self::KLASTER_OPTIONS,
+            'employees'      => Employee::with(['user', 'currentAssignment.jabatan', 'currentAssignment.statusPegawai', 'currentAssignment.klaster'])->orderBy('nama_lengkap')->get(),
+            'jabatans'       => Jabatan::where('aktif', true)->orderBy('nama_jabatan')->get(),
+            'statusPegawais' => StatusPegawai::where('aktif', true)->orderBy('nama_status')->get(),
+            'klasters'       => Klaster::aktif()->orderBy('nama_klaster')->get(),
             'historyEmployee' => $historyEmployee,
         ]);
     }

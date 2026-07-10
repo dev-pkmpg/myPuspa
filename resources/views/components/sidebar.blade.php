@@ -134,6 +134,10 @@
                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('admin.kepegawaian.status-pegawai') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-50' }}">
                             Status Pegawai
                         </a>
+                        <a href="{{ route('admin.kepegawaian.klaster') }}"
+                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('admin.kepegawaian.klaster') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-50' }}">
+                            Klaster
+                        </a>
                     </div>
                 </div>
             </div>

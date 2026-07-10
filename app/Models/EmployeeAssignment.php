@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class EmployeeAssignment extends Model
 {
     protected $fillable = [
-        'employee_id', 'jabatan_id', 'status_pegawai_id', 'klaster',
+        'employee_id', 'jabatan_id', 'status_pegawai_id', 'klaster_id',
         'tanggal_mulai', 'tanggal_selesai',
     ];
 
@@ -30,5 +30,10 @@ class EmployeeAssignment extends Model
     public function statusPegawai(): BelongsTo
     {
         return $this->belongsTo(StatusPegawai::class);
+    }
+
+    public function klaster(): BelongsTo
+    {
+        return $this->belongsTo(Klaster::class);
     }
 }
