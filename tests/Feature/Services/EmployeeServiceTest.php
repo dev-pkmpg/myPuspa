@@ -3,6 +3,7 @@
 namespace Tests\Feature\Services;
 
 use App\Models\Employee;
+use App\Models\Jabatan;
 use App\Models\User;
 use App\Services\EmployeeService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -34,6 +35,55 @@ class EmployeeServiceTest extends TestCase
         $this->assertDatabaseHas('employees', ['nip' => '1234567890']);
         $this->assertDatabaseHas('users', ['email' => 'budi@example.com', 'role' => 'pegawai']);
         $this->assertEquals('budi@example.com', $employee->user->email);
+    }
+
+    public function test_update_changes_employee_and_user_data(): void
+    {
+        $user = User::create([
+            'name' => 'Budi Lama', 'email' => 'budi@example.com',
+            'password' => 'password', 'role' => 'pegawai',
+        ]);
+        $employee = Employee::create([
+            'user_id' => $user->id, 'nip' => '001',
+            'nama_lengkap' => 'Budi Lama', 'tanggal_masuk' => '2024-01-01',
+        ]);
+
+        $this->service->update($employee, [
+            'nama_lengkap' => 'Budi Baru',
+            'email'        => 'budibaru@example.com',
+            'password'     => '',
+            'nip'          => '001',
+            'tanggal_masuk'=> '2024-01-01',
+            'status_aktif' => true,
+        ]);
+
+        $this->assertDatabaseHas('employees', ['id' => $employee->id, 'nama_lengkap' => 'Budi Baru']);
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'email' => 'budibaru@example.com']);
+    }
+
+    public function test_update_skips_password_when_empty(): void
+    {
+        $user = User::create([
+            'name' => 'Budi', 'email' => 'budi@example.com',
+            'password' => bcrypt('password_lama'), 'role' => 'pegawai',
+        ]);
+        $employee = Employee::create([
+            'user_id' => $user->id, 'nip' => '001',
+            'nama_lengkap' => 'Budi', 'tanggal_masuk' => '2024-01-01',
+        ]);
+
+        $oldHash = $user->fresh()->password;
+
+        $this->service->update($employee, [
+            'nama_lengkap' => 'Budi',
+            'email'        => 'budi@example.com',
+            'password'     => '',
+            'nip'          => '001',
+            'tanggal_masuk'=> '2024-01-01',
+            'status_aktif' => true,
+        ]);
+
+        $this->assertEquals($oldHash, $user->fresh()->password);
     }
 
     public function test_create_rolls_back_user_on_employee_failure(): void
