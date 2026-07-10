@@ -5,6 +5,7 @@ namespace Tests\Feature\Livewire;
 use App\Livewire\Attendance\ClockInOut;
 use App\Models\AttendanceSetting;
 use App\Models\Employee;
+use App\Models\HariLibur;
 use App\Models\User;
 use App\Services\AttendanceService;
 use Carbon\Carbon;
@@ -98,5 +99,22 @@ class ClockInOutTest extends TestCase
         $this->assertNotNull(
             $this->employee->attendances()->whereDate('tanggal', today())->first()?->jam_pulang
         );
+    }
+
+    public function test_shows_holiday_message_when_today_is_holiday(): void
+    {
+        HariLibur::create(['tanggal' => today()->toDateString(), 'nama' => 'Hari Raya Test']);
+        $this->actingAs($this->user);
+
+        Livewire::test(ClockInOut::class)
+            ->assertSee('Hari Raya Test')
+            ->assertDontSee('Absen Masuk');
+    }
+
+    public function test_allows_clock_in_when_not_a_holiday(): void
+    {
+        $this->actingAs($this->user);
+
+        Livewire::test(ClockInOut::class)->assertSee('Absen Masuk');
     }
 }

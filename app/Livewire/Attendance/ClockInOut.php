@@ -3,6 +3,7 @@
 namespace App\Livewire\Attendance;
 
 use App\Models\Attendance;
+use App\Models\HariLibur;
 use App\Services\AttendanceService;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -13,6 +14,7 @@ class ClockInOut extends Component
     #[Locked]
     public ?Attendance $todayAttendance = null;
     public ?string $errorMessage = null;
+    public ?string $hariLiburNama = null;
 
     protected $rules = ['lokasi' => 'required|string|max:255'];
 
@@ -20,6 +22,9 @@ class ClockInOut extends Component
     {
         $employee = auth()->user()->employee;
         $this->todayAttendance = $employee ? $service->todayAttendance($employee) : null;
+
+        $hariLibur = HariLibur::onDate(today())->first();
+        $this->hariLiburNama = $hariLibur?->nama;
     }
 
     public function clockIn(AttendanceService $service): void
