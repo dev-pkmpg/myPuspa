@@ -16,8 +16,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Both roles
     Route::get('/absensi/riwayat', fn () => view('pages.attendance.history'))->name('attendance.history');
 
+    // Booking — all authenticated users
+    Route::prefix('booking')->name('booking.')->group(function () {
+        Route::get('/buat', fn () => view('pages.booking.form'))->name('form');
+        Route::get('/riwayat', fn () => view('pages.booking.history'))->name('history');
+    });
+
+    // Manager only
+    Route::prefix('manager')->name('manager.')->middleware('role:manager')->group(function () {
+        Route::get('/booking', fn () => view('pages.manager.booking'))->name('booking.index');
+    });
+
     // Admin only
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
+        Route::get('/ruangan', fn () => view('pages.admin.ruangan'))->name('ruangan.index');
         Route::get('/absensi', fn () => view('pages.attendance.admin'))->name('attendance.index');
         Route::get('/pengaturan-jam', fn () => view('pages.settings.shifts'))->name('settings.shifts');
         Route::get('/hari-libur', fn () => view('pages.settings.holidays'))->name('settings.holidays');
