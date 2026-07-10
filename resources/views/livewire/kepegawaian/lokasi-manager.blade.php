@@ -36,10 +36,14 @@
                           class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
                 @error('keterangan') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
-            <div>
+            <div class="flex items-center gap-6">
                 <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
                     <input wire:model="aktif" type="checkbox" class="rounded">
                     Aktif
+                </label>
+                <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+                    <input wire:model="is_pkc" type="checkbox" class="rounded">
+                    PKC
                 </label>
             </div>
         </div>
@@ -71,6 +75,7 @@
                 <tr>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Nama Lokasi</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Keterangan</th>
+                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">PKC</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
                     <th class="px-4 py-3"></th>
                 </tr>
@@ -80,6 +85,13 @@
                 <tr class="hover:bg-gray-50">
                     <td class="px-4 py-3 font-medium text-gray-800">{{ $lokasi->nama_lokasi }}</td>
                     <td class="px-4 py-3 text-gray-500 text-xs">{{ $lokasi->keterangan ?? '—' }}</td>
+                    <td class="px-4 py-3">
+                        @if($lokasi->is_pkc)
+                            <span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">PKC</span>
+                        @else
+                            <span class="text-gray-300 text-xs">—</span>
+                        @endif
+                    </td>
                     <td class="px-4 py-3">
                         <button wire:click="toggleAktif({{ $lokasi->id }})"
                                 class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium {{ $lokasi->aktif ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
@@ -104,7 +116,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="px-4 py-8 text-center text-gray-400 text-sm">Belum ada lokasi.</td>
+                    <td colspan="5" class="px-4 py-8 text-center text-gray-400 text-sm">Belum ada lokasi.</td>
                 </tr>
                 @endforelse
             </tbody>

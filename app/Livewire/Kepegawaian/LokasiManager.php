@@ -10,6 +10,7 @@ class LokasiManager extends Component
     public string $nama_lokasi = '';
     public string $keterangan = '';
     public bool $aktif = true;
+    public bool $is_pkc = false;
     public bool $showForm = false;
     public ?int $editingId = null;
 
@@ -21,6 +22,7 @@ class LokasiManager extends Component
             'nama_lokasi' => $namaRule,
             'keterangan'  => 'nullable|string|max:255',
             'aktif'       => 'boolean',
+            'is_pkc'      => 'boolean',
         ];
     }
 
@@ -34,6 +36,7 @@ class LokasiManager extends Component
                 'nama_lokasi' => $this->nama_lokasi,
                 'keterangan'  => $this->keterangan ?: null,
                 'aktif'       => $this->aktif,
+                'is_pkc'      => $this->is_pkc,
             ]);
             session()->flash('success', 'Lokasi berhasil diperbarui.');
         } else {
@@ -41,6 +44,7 @@ class LokasiManager extends Component
                 'nama_lokasi' => $this->nama_lokasi,
                 'keterangan'  => $this->keterangan ?: null,
                 'aktif'       => $this->aktif,
+                'is_pkc'      => $this->is_pkc,
             ]);
             session()->flash('success', 'Lokasi berhasil ditambahkan.');
         }
@@ -55,6 +59,7 @@ class LokasiManager extends Component
         $this->nama_lokasi = $lokasi->nama_lokasi;
         $this->keterangan  = $lokasi->keterangan ?? '';
         $this->aktif       = $lokasi->aktif;
+        $this->is_pkc      = $lokasi->is_pkc;
         $this->showForm    = true;
     }
 
@@ -82,7 +87,8 @@ class LokasiManager extends Component
     public function resetForm(): void
     {
         $this->reset(['nama_lokasi', 'keterangan', 'showForm', 'editingId']);
-        $this->aktif = true;
+        $this->aktif  = true;
+        $this->is_pkc = false;
     }
 
     public function render()

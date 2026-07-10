@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lokasi extends Model
 {
-    protected $fillable = ['nama_lokasi', 'keterangan', 'aktif'];
+    protected $fillable = ['nama_lokasi', 'keterangan', 'aktif', 'is_pkc'];
 
-    protected $casts = ['aktif' => 'boolean'];
+    protected $casts = ['aktif' => 'boolean', 'is_pkc' => 'boolean'];
 
     public function assignments(): HasMany
     {
