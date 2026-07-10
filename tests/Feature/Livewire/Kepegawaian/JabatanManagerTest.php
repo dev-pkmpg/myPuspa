@@ -4,6 +4,7 @@ namespace Tests\Feature\Livewire\Kepegawaian;
 
 use App\Livewire\Kepegawaian\JabatanManager;
 use App\Models\Employee;
+use App\Models\EmployeeAssignment;
 use App\Models\Jabatan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,9 +80,11 @@ class JabatanManagerTest extends TestCase
     {
         $jabatan = Jabatan::create(['nama_jabatan' => 'Staff IT', 'aktif' => true]);
         $user = User::factory()->create(['role' => 'pegawai']);
-        Employee::create([
-            'user_id' => $user->id, 'nip' => '001', 'nama_lengkap' => 'Test',
-            'tanggal_masuk' => today(), 'jabatan_id' => $jabatan->id,
+        $employee = Employee::create([
+            'user_id' => $user->id, 'nip' => '001', 'nama_lengkap' => 'Test', 'tanggal_masuk' => today(),
+        ]);
+        EmployeeAssignment::create([
+            'employee_id' => $employee->id, 'jabatan_id' => $jabatan->id, 'tanggal_mulai' => today(),
         ]);
         $this->actingAs($this->admin);
 

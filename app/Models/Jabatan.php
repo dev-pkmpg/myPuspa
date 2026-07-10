@@ -11,8 +11,8 @@ class Jabatan extends Model
 
     protected $casts = ['aktif' => 'boolean'];
 
-    public function employees(): HasMany
+    public function assignments(): HasMany
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(EmployeeAssignment::class);
     }
 }

@@ -63,7 +63,7 @@ class JabatanManager extends Component
         abort_unless(auth()->user()?->isAdmin(), 403);
         $jabatan = Jabatan::findOrFail($id);
 
-        if ($jabatan->employees()->exists()) {
+        if ($jabatan->assignments()->exists()) {
             session()->flash('error', 'Jabatan tidak dapat dihapus karena masih digunakan pegawai.');
             return;
         }

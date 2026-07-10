@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Employee extends Model
 {
     protected $fillable = [
         'user_id', 'nip', 'nrk', 'nama_lengkap', 'status_aktif', 'tanggal_masuk',
-        'jabatan_id', 'status_pegawai_id', 'klaster',
     ];
 
     protected $casts = [
@@ -28,13 +28,15 @@ class Employee extends Model
         return $this->hasMany(Attendance::class);
     }
 
-    public function jabatan(): BelongsTo
+    public function assignments(): HasMany
     {
-        return $this->belongsTo(Jabatan::class);
+        return $this->hasMany(EmployeeAssignment::class)->orderByDesc('tanggal_mulai');
     }
 
-    public function statusPegawai(): BelongsTo
+    public function currentAssignment(): HasOne
     {
-        return $this->belongsTo(StatusPegawai::class);
+        return $this->hasOne(EmployeeAssignment::class)
+            ->whereNull('tanggal_selesai')
+            ->latestOfMany('tanggal_mulai');
     }
 }

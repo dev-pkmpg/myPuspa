@@ -6,7 +6,27 @@
       "PowerShell(Get-Service *)",
       "PowerShell(Get-Process *)",
       "PowerShell(Start-Sleep -Seconds 3; & \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root -h 127.0.0.1 -P 3306 -e \"CREATE DATABASE IF NOT EXISTS laravel CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\" 2>&1; Write-Output \"Exit code: $LASTEXITCODE\")",
-      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root -h 127.0.0.1 -P 3306 -e \"SHOW DATABASES LIKE 'laravel';\" 2>&1)"
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root -h 127.0.0.1 -P 3306 -e \"SHOW DATABASES LIKE 'laravel';\" 2>&1)",
+      "Bash(grep -E \"\\\\.env$|\\\\.env\\\\.\")",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(php artisan *)",
+      "PowerShell(New-Item *)",
+      "Read(//mnt/c/Users/fajar/Desktop/Laravel/myPuspa/**)",
+      "Read(//mnt/c/Users/fajar/Desktop/Laravel/myPuspa/tests/**)",
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(gh pr create --title 'feat: add Kepegawaian module \\(Employee, Jabatan, Status Pegawai\\)' --body ' *)",
+      "Bash(gh *)",
+      "Bash(winget install *)",
+      "PowerShell(gh *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(Get-ChildItem *)",
+      "Bash(del \"database\\\\migrations\\\\2026_07_10_033813_add_manager_to_users_role_enum.php\")",
+      "Bash(git checkout *)",
+      "Bash(git pull *)"
     ]
   }
 }

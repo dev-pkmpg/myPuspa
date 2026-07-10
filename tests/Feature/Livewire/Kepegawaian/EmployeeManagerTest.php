@@ -49,7 +49,8 @@ class EmployeeManagerTest extends TestCase
             ->call('save')
             ->assertHasNoErrors();
 
-        $this->assertDatabaseHas('employees', ['nip' => '001', 'jabatan_id' => $this->jabatan->id]);
+        $this->assertDatabaseHas('employees', ['nip' => '001']);
+        $this->assertDatabaseHas('employee_assignments', ['jabatan_id' => $this->jabatan->id, 'status_pegawai_id' => $this->statusPegawai->id]);
         $this->assertDatabaseHas('users', ['email' => 'budi@example.com', 'role' => 'pegawai']);
     }
 

@@ -4,6 +4,7 @@ namespace Tests\Feature\Livewire\Kepegawaian;
 
 use App\Livewire\Kepegawaian\StatusPegawaiManager;
 use App\Models\Employee;
+use App\Models\EmployeeAssignment;
 use App\Models\StatusPegawai;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,9 +80,11 @@ class StatusPegawaiManagerTest extends TestCase
     {
         $status = StatusPegawai::create(['nama_status' => 'PNS', 'aktif' => true]);
         $user = User::factory()->create(['role' => 'pegawai']);
-        Employee::create([
-            'user_id' => $user->id, 'nip' => '001', 'nama_lengkap' => 'Test',
-            'tanggal_masuk' => today(), 'status_pegawai_id' => $status->id,
+        $employee = Employee::create([
+            'user_id' => $user->id, 'nip' => '001', 'nama_lengkap' => 'Test', 'tanggal_masuk' => today(),
+        ]);
+        EmployeeAssignment::create([
+            'employee_id' => $employee->id, 'status_pegawai_id' => $status->id, 'tanggal_mulai' => today(),
         ]);
         $this->actingAs($this->admin);
 

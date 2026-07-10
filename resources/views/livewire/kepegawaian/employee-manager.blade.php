@@ -57,6 +57,13 @@
                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 @error('tanggal_masuk') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
+
+            <div class="col-span-2">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-1">
+                    Assignment {{ $editingId ? '(perubahan akan membuat record baru)' : '' }}
+                </p>
+            </div>
+
             <div>
                 <label class="block text-xs font-medium text-gray-600 mb-1">Jabatan</label>
                 <select wire:model="jabatan_id"
@@ -139,10 +146,10 @@
                     <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $employee->nip }}</td>
                     <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $employee->nrk ?? '—' }}</td>
                     <td class="px-4 py-3 font-medium text-gray-800">{{ $employee->nama_lengkap }}</td>
-                    <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->jabatan?->nama_jabatan ?? '—' }}</td>
-                    <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->statusPegawai?->nama_status ?? '—' }}</td>
+                    <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->jabatan?->nama_jabatan ?? '—' }}</td>
+                    <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->currentAssignment?->statusPegawai?->nama_status ?? '—' }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">
-                        {{ $employee->klaster ? ($klasterOptions[$employee->klaster] ?? $employee->klaster) : '—' }}
+                        {{ $employee->currentAssignment?->klaster ? ($klasterOptions[$employee->currentAssignment->klaster] ?? $employee->currentAssignment->klaster) : '—' }}
                     </td>
                     <td class="px-4 py-3">
                         <button wire:click="toggleStatusAktif({{ $employee->id }})"
@@ -151,6 +158,10 @@
                         </button>
                     </td>
                     <td class="px-4 py-3 text-right space-x-3">
+                        <button wire:click="showHistory({{ $employee->id }})"
+                                class="text-indigo-400 hover:text-indigo-600 text-xs">
+                            {{ $historyEmployee?->id === $employee->id ? 'Tutup' : 'Riwayat' }}
+                        </button>
                         <button wire:click="edit({{ $employee->id }})"
                                 class="text-indigo-400 hover:text-indigo-600 text-xs">Edit</button>
                         <button @click="Swal.fire({
@@ -166,6 +177,47 @@
                                 class="text-red-400 hover:text-red-600 text-xs">Hapus</button>
                     </td>
                 </tr>
+
+                @if($historyEmployee?->id === $employee->id)
+                <tr>
+                    <td colspan="8" class="px-4 py-4 bg-indigo-50">
+                        <p class="text-xs font-semibold text-indigo-700 uppercase tracking-wider mb-3">
+                            Riwayat Assignment — {{ $employee->nama_lengkap }}
+                        </p>
+                        <table class="w-full text-xs">
+                            <thead>
+                                <tr class="text-gray-500">
+                                    <th class="text-left pb-2 font-semibold">Jabatan</th>
+                                    <th class="text-left pb-2 font-semibold">Status Pegawai</th>
+                                    <th class="text-left pb-2 font-semibold">Klaster</th>
+                                    <th class="text-left pb-2 font-semibold">Mulai</th>
+                                    <th class="text-left pb-2 font-semibold">Selesai</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-indigo-100">
+                                @forelse($historyEmployee->assignments as $assignment)
+                                <tr class="{{ is_null($assignment->tanggal_selesai) ? 'font-medium text-gray-800' : 'text-gray-500' }}">
+                                    <td class="py-1.5">{{ $assignment->jabatan?->nama_jabatan ?? '—' }}</td>
+                                    <td class="py-1.5">{{ $assignment->statusPegawai?->nama_status ?? '—' }}</td>
+                                    <td class="py-1.5">{{ $assignment->klaster ? ($klasterOptions[$assignment->klaster] ?? $assignment->klaster) : '—' }}</td>
+                                    <td class="py-1.5">{{ $assignment->tanggal_mulai->format('d/m/Y') }}</td>
+                                    <td class="py-1.5">
+                                        @if(is_null($assignment->tanggal_selesai))
+                                            <span class="inline-flex px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">Aktif</span>
+                                        @else
+                                            {{ $assignment->tanggal_selesai->format('d/m/Y') }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr><td colspan="5" class="py-2 text-gray-400">Belum ada riwayat assignment.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                @endif
+
                 @empty
                 <tr>
                     <td colspan="8" class="px-4 py-8 text-center text-gray-400 text-sm">Belum ada pegawai.</td>

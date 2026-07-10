@@ -31,6 +31,7 @@ class EmployeeManager extends Component
     public bool $showForm = false;
     public ?int $editingId = null;
     public ?int $editingUserId = null;
+    public ?int $historyEmployeeId = null;
 
     public function rules(): array
     {
@@ -84,7 +85,7 @@ class EmployeeManager extends Component
 
     public function edit(int $id): void
     {
-        $employee = Employee::with('user')->findOrFail($id);
+        $employee = Employee::with(['user', 'currentAssignment'])->findOrFail($id);
         $this->editingId         = $id;
         $this->editingUserId     = $employee->user_id;
         $this->nama_lengkap      = $employee->nama_lengkap;
@@ -93,9 +94,9 @@ class EmployeeManager extends Component
         $this->nip               = $employee->nip;
         $this->nrk               = $employee->nrk ?? '';
         $this->tanggal_masuk     = $employee->tanggal_masuk->format('Y-m-d');
-        $this->jabatan_id        = $employee->jabatan_id;
-        $this->status_pegawai_id = $employee->status_pegawai_id;
-        $this->klaster           = $employee->klaster;
+        $this->jabatan_id        = $employee->currentAssignment?->jabatan_id;
+        $this->status_pegawai_id = $employee->currentAssignment?->status_pegawai_id;
+        $this->klaster           = $employee->currentAssignment?->klaster;
         $this->status_aktif      = $employee->status_aktif;
         $this->showForm          = true;
     }
@@ -124,13 +125,23 @@ class EmployeeManager extends Component
         $this->status_aktif = true;
     }
 
+    public function showHistory(int $id): void
+    {
+        $this->historyEmployeeId = $this->historyEmployeeId === $id ? null : $id;
+    }
+
     public function render()
     {
+        $historyEmployee = $this->historyEmployeeId
+            ? Employee::with(['assignments.jabatan', 'assignments.statusPegawai'])->find($this->historyEmployeeId)
+            : null;
+
         return view('livewire.kepegawaian.employee-manager', [
-            'employees'      => Employee::with(['user', 'jabatan', 'statusPegawai'])->orderBy('nama_lengkap')->get(),
-            'jabatans'       => Jabatan::where('aktif', true)->orderBy('nama_jabatan')->get(),
-            'statusPegawais' => StatusPegawai::where('aktif', true)->orderBy('nama_status')->get(),
-            'klasterOptions' => self::KLASTER_OPTIONS,
+            'employees'       => Employee::with(['user', 'currentAssignment.jabatan', 'currentAssignment.statusPegawai'])->orderBy('nama_lengkap')->get(),
+            'jabatans'        => Jabatan::where('aktif', true)->orderBy('nama_jabatan')->get(),
+            'statusPegawais'  => StatusPegawai::where('aktif', true)->orderBy('nama_status')->get(),
+            'klasterOptions'  => self::KLASTER_OPTIONS,
+            'historyEmployee' => $historyEmployee,
         ]);
     }
 }

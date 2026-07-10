@@ -63,7 +63,7 @@ class StatusPegawaiManager extends Component
         abort_unless(auth()->user()?->isAdmin(), 403);
         $status = StatusPegawai::findOrFail($id);
 
-        if ($status->employees()->exists()) {
+        if ($status->assignments()->exists()) {
             session()->flash('error', 'Status pegawai tidak dapat dihapus karena masih digunakan pegawai.');
             return;
         }
