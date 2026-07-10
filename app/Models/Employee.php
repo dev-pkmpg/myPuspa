@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
 {
-    protected $fillable = ['user_id', 'nip', 'nama_lengkap', 'status_aktif', 'tanggal_masuk'];
+    protected $fillable = [
+        'user_id', 'nip', 'nama_lengkap', 'status_aktif', 'tanggal_masuk',
+        'jabatan_id', 'status_pegawai_id', 'klaster',
+    ];
 
     protected $casts = [
-        'status_aktif' => 'boolean',
+        'status_aktif'  => 'boolean',
         'tanggal_masuk' => 'date',
     ];
 
@@ -23,5 +26,15 @@ class Employee extends Model
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function jabatan(): BelongsTo
+    {
+        return $this->belongsTo(Jabatan::class);
+    }
+
+    public function statusPegawai(): BelongsTo
+    {
+        return $this->belongsTo(StatusPegawai::class);
     }
 }
