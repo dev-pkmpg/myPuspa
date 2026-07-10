@@ -44,9 +44,18 @@
             </div>
         </div>
         <div class="flex gap-3 mt-4">
-            <button wire:click="save"
+            <button @click="Swal.fire({
+                        title: '{{ $editingId ? 'Perbarui' : 'Simpan' }} Jabatan?',
+                        text: 'Pastikan data jabatan sudah benar.',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#4f46e5',
+                        cancelButtonColor: '#6b7280',
+                        confirmButtonText: 'Ya, {{ $editingId ? 'Perbarui' : 'Simpan' }}',
+                        cancelButtonText: 'Batal',
+                    }).then((result) => { if (result.isConfirmed) $wire.save() })"
                     class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700">
-                Simpan
+                {{ $editingId ? 'Perbarui' : 'Simpan' }}
             </button>
             <button wire:click="resetForm"
                     class="px-4 py-2 text-gray-600 text-sm rounded-lg hover:bg-gray-100">

@@ -53,7 +53,17 @@
             </div>
 
             <div class="pt-2">
-                <button wire:click="save" wire:loading.attr="disabled"
+                <button @click="Swal.fire({
+                            title: 'Ajukan Booking?',
+                            text: 'Pastikan ruangan, tanggal, dan jam sudah benar.',
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#4f46e5',
+                            cancelButtonColor: '#6b7280',
+                            confirmButtonText: 'Ya, Ajukan',
+                            cancelButtonText: 'Batal',
+                        }).then((result) => { if (result.isConfirmed) $wire.save() })"
+                        wire:loading.attr="disabled"
                         class="px-6 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 disabled:opacity-50">
                     <span wire:loading.remove wire:target="save">Ajukan Booking</span>
                     <span wire:loading wire:target="save">Memproses...</span>
