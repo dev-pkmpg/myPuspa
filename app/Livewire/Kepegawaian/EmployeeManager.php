@@ -22,6 +22,7 @@ class EmployeeManager extends Component
     public string $email = '';
     public string $password = '';
     public string $nip = '';
+    public string $nrk = '';
     public string $tanggal_masuk = '';
     public ?int $jabatan_id = null;
     public ?int $status_pegawai_id = null;
@@ -34,6 +35,7 @@ class EmployeeManager extends Component
     public function rules(): array
     {
         $nipRule   = 'required|string|max:20|unique:employees,nip' . ($this->editingId ? ',' . $this->editingId : '');
+        $nrkRule   = 'nullable|string|max:20|unique:employees,nrk' . ($this->editingId ? ',' . $this->editingId : '');
         $emailRule = 'required|email|unique:users,email' . ($this->editingUserId ? ',' . $this->editingUserId : '');
         $pwRule    = $this->editingId ? 'nullable|string|min:8' : 'required|string|min:8';
 
@@ -42,6 +44,7 @@ class EmployeeManager extends Component
             'email'             => $emailRule,
             'password'          => $pwRule,
             'nip'               => $nipRule,
+            'nrk'               => $nrkRule,
             'tanggal_masuk'     => 'required|date',
             'jabatan_id'        => 'nullable|exists:jabatans,id',
             'status_pegawai_id' => 'nullable|exists:status_pegawais,id',
@@ -60,6 +63,7 @@ class EmployeeManager extends Component
             'email'             => $this->email,
             'password'          => $this->password,
             'nip'               => $this->nip,
+            'nrk'               => $this->nrk ?: null,
             'tanggal_masuk'     => $this->tanggal_masuk,
             'jabatan_id'        => $this->jabatan_id ?: null,
             'status_pegawai_id' => $this->status_pegawai_id ?: null,
@@ -87,6 +91,7 @@ class EmployeeManager extends Component
         $this->email             = $employee->user->email;
         $this->password          = '';
         $this->nip               = $employee->nip;
+        $this->nrk               = $employee->nrk ?? '';
         $this->tanggal_masuk     = $employee->tanggal_masuk->format('Y-m-d');
         $this->jabatan_id        = $employee->jabatan_id;
         $this->status_pegawai_id = $employee->status_pegawai_id;
@@ -112,7 +117,7 @@ class EmployeeManager extends Component
     public function resetForm(): void
     {
         $this->reset([
-            'nama_lengkap', 'email', 'password', 'nip', 'tanggal_masuk',
+            'nama_lengkap', 'email', 'password', 'nip', 'nrk', 'tanggal_masuk',
             'jabatan_id', 'status_pegawai_id', 'klaster',
             'showForm', 'editingId', 'editingUserId',
         ]);

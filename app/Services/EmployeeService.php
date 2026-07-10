@@ -21,6 +21,7 @@ class EmployeeService
             return Employee::create([
                 'user_id'           => $user->id,
                 'nip'               => $data['nip'],
+                'nrk'               => $data['nrk'] ?? null,
                 'nama_lengkap'      => $data['nama_lengkap'],
                 'jabatan_id'        => $data['jabatan_id'] ?? null,
                 'status_pegawai_id' => $data['status_pegawai_id'] ?? null,
@@ -45,6 +46,7 @@ class EmployeeService
 
             $employee->update([
                 'nip'               => $data['nip'],
+                'nrk'               => $data['nrk'] ?? null,
                 'nama_lengkap'      => $data['nama_lengkap'],
                 'jabatan_id'        => $data['jabatan_id'] ?? null,
                 'status_pegawai_id' => $data['status_pegawai_id'] ?? null,

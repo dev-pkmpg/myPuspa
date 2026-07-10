@@ -32,6 +32,12 @@
                 @error('nip') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
             <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">NRK <span class="text-gray-400">(opsional)</span></label>
+                <input wire:model="nrk" type="text" placeholder="Nomor Registrasi Kepegawaian"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @error('nrk') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
                 <label class="block text-xs font-medium text-gray-600 mb-1">Email</label>
                 <input wire:model="email" type="email"
                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -118,6 +124,7 @@
             <thead class="bg-gray-50 border-b border-gray-200">
                 <tr>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">NIP</th>
+                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">NRK</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Nama</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Jabatan</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
@@ -130,6 +137,7 @@
                 @forelse($employees as $employee)
                 <tr class="hover:bg-gray-50">
                     <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $employee->nip }}</td>
+                    <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $employee->nrk ?? '—' }}</td>
                     <td class="px-4 py-3 font-medium text-gray-800">{{ $employee->nama_lengkap }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->jabatan?->nama_jabatan ?? '—' }}</td>
                     <td class="px-4 py-3 text-gray-600 text-xs">{{ $employee->statusPegawai?->nama_status ?? '—' }}</td>
@@ -160,7 +168,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="px-4 py-8 text-center text-gray-400 text-sm">Belum ada pegawai.</td>
+                    <td colspan="8" class="px-4 py-8 text-center text-gray-400 text-sm">Belum ada pegawai.</td>
                 </tr>
                 @endforelse
             </tbody>
