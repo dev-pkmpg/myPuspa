@@ -84,13 +84,14 @@ return [
             ]) : [],
         ],
 
-        'zkteco' => [
+
+        'attendance' => [
             'driver'    => 'mysql',
-            'host'      => env('ZKTECO_DB_HOST', '127.0.0.1'),
-            'port'      => env('ZKTECO_DB_PORT', '3306'),
-            'database'  => env('ZKTECO_DB_DATABASE', ''),
-            'username'  => env('ZKTECO_DB_USERNAME', 'root'),
-            'password'  => env('ZKTECO_DB_PASSWORD', ''),
+            'host'      => env('ATTENDANCE_DB_HOST', '127.0.0.1'),
+            'port'      => env('ATTENDANCE_DB_PORT', '3306'),
+            'database'  => env('ATTENDANCE_DB_DATABASE', 'wehopes'),
+            'username'  => env('ATTENDANCE_DB_USERNAME', 'root'),
+            'password'  => env('ATTENDANCE_DB_PASSWORD', ''),
             'charset'   => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix'    => '',
