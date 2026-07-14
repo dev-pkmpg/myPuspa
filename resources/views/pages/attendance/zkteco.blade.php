@@ -1,3 +1,3 @@
-<x-layouts.app title="Data Absensi Mesin (ZKTeco)">
-    <livewire:absensi.zkteco-absensi />
+<x-layouts.app title="Data Absensi Mesin">
+    <livewire:absensi.absensi />
 </x-layouts.app>
